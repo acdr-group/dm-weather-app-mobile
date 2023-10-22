@@ -1,5 +1,5 @@
 import React from 'react';
-import {ActivityIndicator, SafeAreaView, ScrollView, StyleSheet, Text} from "react-native";
+import {ActivityIndicator, SafeAreaView, ScrollView, Text} from "react-native";
 import {Stack} from "expo-router";
 import PageWrapperComponent from "../../components/shared/PageWrapperComponent";
 import {PageTitle} from "../../context/PageContext";

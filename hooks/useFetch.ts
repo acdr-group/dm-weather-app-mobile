@@ -8,6 +8,7 @@ const useFetch = <T>(endpoint: string, query?: Record<string, unknown>) => {
     const [error, setError] = useState<unknown>(null)
 
     useEffect(() => {
+        console.log("server_url: ", process.env.EXPO_PUBLIC_BACKEND_SERVER_URL)
         fetchData();
     }, [])
 
