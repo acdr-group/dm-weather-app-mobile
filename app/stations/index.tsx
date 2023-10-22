@@ -33,15 +33,14 @@ const Stationen: React.FC<Props> = (props: Props) => {
                         <ActivityIndicator size="large"/> :
                         <StationList stations={rawData.stations}/>
                     }
-                    {error ? <Text>An error occured when loading te data: {error.toString()}</Text> : null}
+                    {error ?
+                        <Text>An error occured when loading te data: {error.toString()}</Text> :
+                        null
+                    }
                 </PageWrapperComponent>
             </ScrollView>
         </SafeAreaView>
     )
 }
-
-const styles = StyleSheet.create({
-
-})
 
 export default Stationen

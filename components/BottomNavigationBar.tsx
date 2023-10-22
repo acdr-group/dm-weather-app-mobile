@@ -1,7 +1,7 @@
 import React from 'react';
 import {Image, Text, TouchableOpacity, View} from "react-native";
 import {useRouter} from "expo-router";
-import {COLORS, SIZES} from "../constatnts/theme";
+import {COLORS, SIZES} from "../constatnts";
 import {PageTitle} from "../context/PageContext";
 import { StyleSheet } from "react-native";
 
