@@ -4,6 +4,7 @@ const COLORS = {
     tertiary: "#FF7754",
     black: "#000000",
 
+    lightgray: "rgba(220,218,239,0.78)",
     gray: "#83829A",
     gray2: "#C1C0C8",
     gray3: "#f5f5f7",
@@ -18,8 +19,19 @@ const FONT = {
     bold: "Roboto_700Bold",
 }
 
+const FONT_SIZE = {
+    xSmall: 12,
+    small: 13,
+    medium: 16,
+    normal: 18,
+    large: 20,
+    xLarge: 24,
+    xxLarge: 26,
+    xxxLarge: 28,
+}
+
 const SIZES = {
-    xxsmall: 10,
+    xxSmall: 10,
     xSmall: 12,
     small: 15,
     medium: 18,
@@ -65,4 +77,11 @@ const SHADOWS = {
     },
 }
 
-export { COLORS, FONT, SIZES, GAPS, SHADOWS }
+export {
+    COLORS,
+    FONT,
+    SIZES,
+    GAPS,
+    SHADOWS,
+    FONT_SIZE,
+}

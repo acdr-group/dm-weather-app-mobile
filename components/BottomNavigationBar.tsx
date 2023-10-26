@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     },
     buttonLabel: {
         color: COLORS.black,
-        fontSize: SIZES.xxsmall,
+        fontSize: SIZES.xxSmall,
         fontWeight: "500",
     }
 })
