@@ -10,10 +10,17 @@ import {HourlyTemperature} from "../../../models/hourlyTemperature";
 import {HourlyTemperatureList} from "../../../components/station/HourlyTemperatureList";
 import WeatherKeyValueCard from "../../../components/station/WeatherKeyValueCard";
 import {SensorMeasurementWithTimestamps} from "../../../models/sensorMeasurement";
+import {SensorId} from "../../../models/sensor";
 
 type Props = {}
 
 const INITIAL_DATE = new Date("2022-09-01T00:00:00Z")
+
+type WeatherKeyValue = {
+    value: number
+    units: string[]
+    icon?: any
+}
 
 const StationItem: React.FC<Props> = (props: Props) => {
 
@@ -34,7 +41,14 @@ const StationItem: React.FC<Props> = (props: Props) => {
         start: new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), 2, 0).toISOString(),
         end: new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), 25, 0).toISOString(),
         stations: process.env.EXPO_PUBLIC_DM_TECH_STATION_ID,
-        sensors: 1
+        sensors: `
+            ${SensorId.AIR_TEMPERATURE},
+            ${SensorId.WIND_SPEED},
+            ${SensorId.WIND_DIRECTION},
+            ${SensorId.PRECIPITATION_AMOUNT},
+            ${SensorId.AIR_HUMIDITY},
+            ${SensorId.AIR_PRESSURE}
+        `,
     })
 
     useEffect(() => {
@@ -58,6 +72,29 @@ const StationItem: React.FC<Props> = (props: Props) => {
 
     const calenderIcon = require("../../../assets/icons/calendar_month.png")
 
+    const getWindSpeedAndDirection = (): WeatherKeyValue => {
+        const windSpeedMeasurement = sensorMeasurementWithTimestamps
+            ?.sensorMeasurements.find(m => m.id === SensorId.WIND_SPEED)
+
+        const windDirectionMeasurement = sensorMeasurementWithTimestamps
+            ?.sensorMeasurements.find(m => m.id === SensorId.WIND_DIRECTION)
+
+        return {
+            value: windSpeedMeasurement.avg,
+            units: [windSpeedMeasurement.unit, `${windDirectionMeasurement.avg} ${windDirectionMeasurement.unit}`],
+        }
+    }
+
+    const getWeatherKeyValue = (sensorId: SensorId): WeatherKeyValue => {
+        const measurement = sensorMeasurementWithTimestamps
+            ?.sensorMeasurements.find(m => m.id === sensorId)
+
+        return {
+            value: measurement.avg,
+            units: [measurement.unit],
+        }
+    }
+
     if (stationIsLoading ||
         sensorMeasurementWithTimestampsIsLoading ||
         station === undefined
@@ -76,13 +113,13 @@ const StationItem: React.FC<Props> = (props: Props) => {
                 </View>
                 <View style={styles.filterWrapper}>
                     <View style={styles.filterContainer}>
-                        {/*<Text style={styles.filterItemLael}>Datum</Text>*/}
                         <View style={{
                             flexDirection: "row",
                             alignItems: "center",
                             backgroundColor: COLORS.gray2,
                             borderRadius: SIZES.xxSmall,
                             padding: SIZES.xxxSmall,
+                            paddingLeft: SIZES.xSmall,
                             justifyContent: "space-between",
                         }}>
                             <Image source={calenderIcon} style={styles.icon}/>
@@ -100,14 +137,14 @@ const StationItem: React.FC<Props> = (props: Props) => {
                 <View style={styles.itemListContainer}>
                     <WeatherKeyValueCard
                         cardTitle={"Wind"}
-                        value={10}
-                        units={["m/s", "122° OSO"]}
+                        value={getWindSpeedAndDirection().value}
+                        units={getWindSpeedAndDirection().units}
                         cardIcon={require("../../../assets/icons/air.png")}
                     />
                     <WeatherKeyValueCard
                         cardTitle={"Niederschlag"}
-                        value={2.2}
-                        units={["mm"]}
+                        value={getWeatherKeyValue(SensorId.PRECIPITATION_AMOUNT).value}
+                        units={getWeatherKeyValue(SensorId.PRECIPITATION_AMOUNT).units}
                         cardIcon={require("../../../assets/icons/water_drop.png")}
                     />
                 </View>
@@ -115,14 +152,14 @@ const StationItem: React.FC<Props> = (props: Props) => {
                 <View style={styles.itemListContainer}>
                     <WeatherKeyValueCard
                         cardTitle={"Feutigkeit"}
-                        value={85}
-                        units={["%"]}
+                        value={getWeatherKeyValue(SensorId.AIR_HUMIDITY).value}
+                        units={getWeatherKeyValue(SensorId.AIR_HUMIDITY).units}
                         cardIcon={require("../../../assets/icons/humidity_percentage.png")}
                     />
                     <WeatherKeyValueCard
                         cardTitle={"Luftdruck"}
-                        value={999.0}
-                        units={["hpa"]}
+                        value={getWeatherKeyValue(SensorId.AIR_PRESSURE).value}
+                        units={getWeatherKeyValue(SensorId.AIR_PRESSURE).units}
                         cardIcon={require("../../../assets/icons/compress.png")}
                     />
                 </View>
