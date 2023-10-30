@@ -20,17 +20,18 @@ const FONT = {
 }
 
 const FONT_SIZE = {
-    xSmall: 12,
-    small: 13,
-    medium: 16,
-    normal: 18,
-    large: 20,
-    xLarge: 24,
-    xxLarge: 26,
-    xxxLarge: 28,
+    xSmall: 14,
+    small: 16,
+    medium: 18,
+    normal: 20,
+    large: 22,
+    xLarge: 26,
+    xxLarge: 30,
+    xxxLarge: 33,
 }
 
 const SIZES = {
+    xxxSmall: 5,
     xxSmall: 10,
     xSmall: 12,
     small: 15,

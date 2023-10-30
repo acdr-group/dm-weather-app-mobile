@@ -1,6 +1,7 @@
 import React, {PropsWithChildren} from 'react';
 import {StyleSheet, View} from "react-native";
 import PageTitleComponent from "./PageTitleComponent";
+import {GAPS, SIZES} from "../../constatnts/theme";
 
 type Props = PropsWithChildren & {
     title?: string
@@ -17,8 +18,8 @@ const PageWrapperComponent: React.FC<Props> = (props: Props) => {
 
 const styles = StyleSheet.create({
     pageContentContainer: {
-        padding: 14,
-        rowGap: 20
+        padding: SIZES.small,
+        rowGap: GAPS.gap4,
     }
 })
 
