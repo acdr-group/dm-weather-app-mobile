@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react"
-import axios from "axios";
+import axios, {AxiosRequestConfig} from "axios";
 
 const useFetch = <T>(endpoint: string, query?: Record<string, unknown>) => {
 
@@ -12,7 +12,7 @@ const useFetch = <T>(endpoint: string, query?: Record<string, unknown>) => {
         fetchData();
     }, [])
 
-    const options = {
+    const options: AxiosRequestConfig = {
         method: "GET",
         url: `${process.env.EXPO_PUBLIC_BACKEND_SERVER_URL}/${endpoint}`,
         params: { ...query },
@@ -33,7 +33,7 @@ const useFetch = <T>(endpoint: string, query?: Record<string, unknown>) => {
         }
     }
 
-    const refetch = async () => {
+    const reFetch = async () => {
         setIsLoading(true)
         await fetchData()
     }
@@ -42,7 +42,7 @@ const useFetch = <T>(endpoint: string, query?: Record<string, unknown>) => {
         data,
         isLoading,
         error,
-        refetch
+        reFetch: reFetch
     }
 }
 

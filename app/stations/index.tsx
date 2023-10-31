@@ -37,6 +37,7 @@ const Stationen: React.FC<Props> = (props: Props) => {
                 options={{
                     headerBackVisible: false,
                     headerTransparent: true,
+                    headerTitle: "stations",
                 }}
             />
             <ScrollView>

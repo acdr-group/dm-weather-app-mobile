@@ -8,7 +8,7 @@ type Props = {
 const ErrorMessageComponent: React.FC<Props> = (props: Props) => {
   return (
     <View>
-        <Text>An unexpected error occurred when {props.reason}</Text>
+        <Text>An unexpected error occurred {props.reason}</Text>
         <Text>{props.reason}</Text>
     </View>
   )
