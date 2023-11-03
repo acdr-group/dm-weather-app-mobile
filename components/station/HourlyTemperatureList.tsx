@@ -1,7 +1,7 @@
 import {HourlyTemperature} from "../../models/hourlyTemperature";
 import React from "react";
 import {Image, ScrollView, StyleSheet, Text, View} from "react-native";
-import {FONT_SIZE, GAPS, SIZES} from "../../constatnts/theme";
+import {FONT_SIZE, GAPS, SIZES} from "../../constatnts";
 import GenericStationCard from "./GenericStationCard";
 
 type Props = {
@@ -27,7 +27,7 @@ export const HourlyTemperatureList: React.FC<Props> = (props: Props) => {
                             <Image
                                 source={d.icon}
                                 resizeMode="contain"
-                                style={styles.icon}
+                                style={styles.iconMedium}
                             />
                             <Text style={styles.itemTemperature}>
                                 {d.temp}
@@ -41,7 +41,7 @@ export const HourlyTemperatureList: React.FC<Props> = (props: Props) => {
 }
 
 const styles = StyleSheet.create({
-    icon: {
+    iconMedium: {
         width: 20,
         height: 20,
     },

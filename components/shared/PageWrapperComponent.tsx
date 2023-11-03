@@ -1,16 +1,24 @@
 import React, {PropsWithChildren} from 'react';
 import {StyleSheet, View} from "react-native";
-import PageTitleComponent from "./PageTitleComponent";
-import {GAPS, SIZES} from "../../constatnts/theme";
+import PageTitleSectionComponent from "./PageTitleSectionComponent";
+import {GAPS, SIZES} from "../../constatnts";
 
 type Props = PropsWithChildren & {
     title?: string
+    description?: string
+    size?: "medium" | "large"
 }
 
 const PageWrapperComponent: React.FC<Props> = (props: Props) => {
     return (
         <View style={styles.pageContentContainer}>
-            {props.title ? <PageTitleComponent title={props.title}/> : null}
+            {props.title ?
+                <PageTitleSectionComponent
+                    title={props.title}
+                    size={props.size}
+                    description={props.description}
+                /> : null
+            }
             {props.children}
         </View>
     )
