@@ -21,11 +21,6 @@ const BottomNavigationBar: React.FC = () => {
             onPress: () => router.push("/")
         },
         {
-            label: PageTitle.STATIONS_PAGE_TITLE,
-            icon: require("../assets/icons/station.png"),
-            onPress: () => router.push("/stations")
-        },
-        {
             label: PageTitle.ANALYSIS_PAGE_TITLE,
             icon: require("../assets/icons/analytics.png"),
             onPress: () => router.push("/analysis")
@@ -70,10 +65,10 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.white,
         borderTopWidth: 0.3,
         borderTopColor: COLORS.gray,
-        paddingTop: 9,
-        paddingRight: 12,
+        paddingTop: SIZES.xxSmall,
+        paddingRight: SIZES.xSmall,
         paddingBottom: 2,
-        paddingLeft: 12,
+        paddingLeft: SIZES.xSmall,
     },
     wrapperButton: {
         justifyContent: "center",
