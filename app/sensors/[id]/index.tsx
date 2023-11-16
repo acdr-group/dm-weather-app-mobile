@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {ActivityIndicator, SafeAreaView, ScrollView, StyleSheet, Text, View} from "react-native";
 import {Stack, useLocalSearchParams} from "expo-router";
 import PageWrapperComponent from "../../../components/shared/PageWrapperComponent";
@@ -9,6 +9,7 @@ import LineChartComponent, {ChartDataType} from "../../../components/shared/Line
 import {SensorMeasurementWithTimestamps} from "../../../models/sensorMeasurement";
 import {FONT_SIZE, GAPS} from "../../../constatnts";
 import WeatherKeyValueCard from "../../../components/station/WeatherKeyValueCard";
+import DateTimePickerComponent from "../../../components/shared/DateTimePickerComponent";
 
 type Props = {}
 const SensorAnalysis: React.FC<Props> = (props: Props) => {
@@ -53,14 +54,23 @@ type PropsChartAndKeyValues = {
     sensorId: string
 }
 
+type DateInterval = {
+    startDate: string,
+    endDate: string,
+}
+
+const INITIAL_DATE_INTERVAL = {
+    startDate:"2022-07-30T22:00:00.000Z",
+    endDate: "2022-09-01T22:00:00.000Z",
+}
 const ChartAndKeyValuesComponent: React.FC<PropsChartAndKeyValues> = (props: PropsChartAndKeyValues) => {
 
     // TODO: Replace this date with the selected date from a datepicker!
-    const startDate = "2022-07-30T22:00:00.000Z"
-    const endDate = "2022-09-01T22:00:00.000Z"
+    const [selectedInterval, setSelectedInterval] = useState<DateInterval>(INITIAL_DATE_INTERVAL)
+
     const readingsRequestOptions = {
-        start: startDate,
-        end: endDate,
+        start: selectedInterval.startDate,
+        end: selectedInterval.endDate,
         stations: process.env.EXPO_PUBLIC_DM_TECH_STATION_ID,
         sensors: props.sensorId,
     }
@@ -69,6 +79,7 @@ const ChartAndKeyValuesComponent: React.FC<PropsChartAndKeyValues> = (props: Pro
         data,
         isLoading,
         error,
+        reFetch,
     } = useFetch<SensorMeasurementWithTimestamps>("readings", readingsRequestOptions)
 
     const chartData = useMemo<ChartDataType[] | undefined>(() => {
@@ -89,10 +100,43 @@ const ChartAndKeyValuesComponent: React.FC<PropsChartAndKeyValues> = (props: Pro
         average: require("../../../assets/icons/functions.png")
     }
 
+    useEffect(() => {
+        reFetch()
+        console.log("Interval: ", selectedInterval)
+    }, [selectedInterval])
+
+    const handleDateChange = (event: any, date: Date, nativeId: string) => {
+        setSelectedInterval(prevState => {
+            return {
+                ...prevState,
+                [nativeId]: date.toISOString(),
+            }
+        })
+    }
+
     if (error) return <ErrorMessageComponent reason={error.toString()}/>
 
     return (
         <>
+            <View style={styles.datesFilterContainer}>
+                <DateTimePickerComponent
+                    testID="dateTimePicker-analysis-screen-start-date"
+                    value={new Date(selectedInterval.startDate)}
+                    label={"Ab:"}
+                    //mode={"date"}
+                    nativeID={"startDate"}
+                    onChange={(e, date) => handleDateChange(e, date, "startDate")}
+                />
+                <DateTimePickerComponent
+                    testID="dateTimePicker-analysis-screen-end-date"
+                    value={new Date(selectedInterval.endDate)}
+                    label={"Bis:"}
+                    //mode={"date"}
+                    nativeID={"endDate"}
+                    onChange={(e, date) => handleDateChange(e, date, "endDate")}
+                />
+            </View>
+
             {isLoading || chartData === undefined ?
                 <ActivityIndicator size="large"/> :
                 <LineChartComponent
@@ -137,13 +181,13 @@ const ChartAndKeyValuesComponent: React.FC<PropsChartAndKeyValues> = (props: Pro
 const mapTimeLabelToValues = (time: string[], values: number[]): {date: Date, value: number}[] => {
     const dates = time.map(t => new Date(t))
     return dates.map((d, i) => {
-            return {
-                date: d,
-                value: values[i]
-            }
-        })
+        return {
+            date: d,
+            value: values[i]
+        }
+    })
         // TODO: To filter data out and get dates with starting at 0 minutes. Do we really need this ?
-    .filter(d => d.date.getMinutes() === 0)
+        .filter(d => d.date.getMinutes() === 0)
 }
 
 const styles = StyleSheet.create({
@@ -158,6 +202,11 @@ const styles = StyleSheet.create({
         fontSize: FONT_SIZE.large,
         fontWeight: "500",
     },
+    datesFilterContainer: {
+        flexDirection: "row",
+        gap: GAPS.gap3,
+        justifyContent: "center",
+    }
 })
 
 export default SensorAnalysis

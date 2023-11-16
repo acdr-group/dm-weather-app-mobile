@@ -3,15 +3,15 @@ import {ActivityIndicator, Button, Image, ScrollView, StyleSheet, Text, View} fr
 import useFetch from "../../hooks/useFetch";
 import ErrorMessageComponent from "../../components/shared/ErrorMessageComponent";
 import {Station} from "../../models/station";
-import {COLORS, FONT_SIZE, GAPS, SIZES} from "../../constatnts";
+import {COLORS, FONT_SIZE, GAPS} from "../../constatnts";
 import PageWrapperComponent from "../../components/shared/PageWrapperComponent";
-import RNDateTimePicker from "@react-native-community/datetimepicker";
 import {HourlyTemperature} from "../../models/hourlyTemperature";
 import {SensorMeasurementWithTimestamps} from "../../models/sensorMeasurement";
 import {SensorId} from "../../models/sensor";
 import {useRouter} from "expo-router";
 import {HourlyTemperatureList} from "../../components/station/HourlyTemperatureList";
 import WeatherKeyValueCard from "../../components/station/WeatherKeyValueCard";
+import DateTimePickerComponent from "../../components/shared/DateTimePickerComponent";
 
 type Props = {}
 
@@ -35,7 +35,7 @@ const StartComponent: React.FC<Props> = (props: Props) => {
         error,
     } = useFetch<Station>(`stations/${process.env.EXPO_PUBLIC_DM_TECH_STATION_ID}`)
 
-    const onDateChange = (event: any, dateSelected: Date) => setSelectedDate(dateSelected)
+    const handleDateChange = (event: any, dateSelected: Date) => setSelectedDate(dateSelected)
 
     const icons = {
         calendarMonth: require("../../assets/icons/calendar_month.png"),
@@ -53,26 +53,14 @@ const StartComponent: React.FC<Props> = (props: Props) => {
                     <Text style={styles.stationSubtitle}>dmTECH</Text>
                 </View>
                 <View style={styles.filterWrapper}>
-                    <View style={styles.filterContainer}>
-                        <View style={{
-                            flexDirection: "row",
-                            alignItems: "center",
-                            backgroundColor: COLORS.gray2,
-                            borderRadius: SIZES.xxSmall,
-                            padding: SIZES.xxxSmall,
-                            paddingLeft: SIZES.xSmall,
-                            justifyContent: "space-between",
-                        }}>
-                            <Image source={icons.calendarMonth} style={styles.iconMedium}/>
-                            <RNDateTimePicker
-                                testID="dateTimePicker"
-                                value={selectedDate}
-                                mode={"date"}
-                                nativeID={"start-date"}
-                                onChange={onDateChange}
-                            />
-                        </View>
-                    </View>
+                    <DateTimePickerComponent
+                        testID="dateTimePicker-start-screen"
+                        value={selectedDate}
+                        icon={icons.calendarMonth}
+                        //mode={"date"}
+                        nativeID={"start-date"}
+                        onChange={handleDateChange}
+                    />
                 </View>
                 <WeatherKeyValueListComponent selectedDate={selectedDate}/>
             </PageWrapperComponent>
