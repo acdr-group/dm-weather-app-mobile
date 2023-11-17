@@ -98,9 +98,10 @@ const WeatherKeyValueListComponent: React.FC<PropsWeatherKeyValueList> = (props:
     } = useFetch<SensorMeasurementWithTimestamps>("readings", readingsRequestOptions)
 
     const icons = {
-        cloudy: require("../../assets/icons/weather-stages/cloudy.png"),
+        cloudOutlined: require("../../assets/icons/weather-stages/cloud_outlined.png"),
         windSpeedAndDirection: require("../../assets/icons/air.png"),
         waterDrop: require("../../assets/icons/water_drop.png"),
+        waterDropOutlined: require("../../assets/icons/water_drop_outlined.png"),
         humidityPercentage: require("../../assets/icons/humidity_percentage.png"),
         airPressure: require("../../assets/icons/compress.png"),
         arrowUpward: require("../../assets/icons/arrow_upward.png"),
@@ -114,7 +115,7 @@ const WeatherKeyValueListComponent: React.FC<PropsWeatherKeyValueList> = (props:
             .map(d => {
                 return {
                     date: d.date,
-                    icon: icons.cloudy,
+                    icon: icons.cloudOutlined,
                     temp: `${d.value.toFixed(0)}°`,
                 }
             })
@@ -154,16 +155,26 @@ const WeatherKeyValueListComponent: React.FC<PropsWeatherKeyValueList> = (props:
         <>
             <View style={styles.temperaturePreviewContainer}>
                 <Text style={styles.previewAverageTemperature}>
-                    {`${getWeatherKeyValue(SensorId.AIR_TEMPERATURE).value} ${getWeatherKeyValue(SensorId.AIR_TEMPERATURE).units.toString()}`}
+                    {`${getWeatherKeyValue(SensorId.AIR_TEMPERATURE).value}${getWeatherKeyValue(SensorId.AIR_TEMPERATURE).units.toString()}`}
                 </Text>
-                <View style={styles.minMaxTemperatureContainer}>
-                    <View style={styles.minMaxTemperatureItem}>
-                        <Image source={icons.arrowDownward} style={styles.iconSmall}/>
-                        <Text>{`${getWeatherKeyValue(SensorId.AIR_TEMPERATURE).min} ${getWeatherKeyValue(SensorId.AIR_TEMPERATURE).units.toString()}`}</Text>
+                <View style={styles.overviewValueListContainer}>
+                    <View style={styles.overviewValueItem}>
+                        <Image source={icons.airPressure} style={styles.iconSmall}/>
+                        <Text style={styles.overviewIndicatorText}>
+                            {`${getWeatherKeyValue(SensorId.AIR_PRESSURE).min} ${getWeatherKeyValue(SensorId.AIR_PRESSURE).units.toString()}`}
+                        </Text>
                     </View>
-                    <View style={styles.minMaxTemperatureItem}>
-                        <Image source={icons.arrowUpward} style={styles.iconSmall}/>
-                        <Text>{`${getWeatherKeyValue(SensorId.AIR_TEMPERATURE).max} ${getWeatherKeyValue(SensorId.AIR_TEMPERATURE).units.toString()}`}</Text>
+                    <View style={styles.overviewValueItem}>
+                        <Image source={icons.waterDropOutlined} style={styles.iconSmall}/>
+                        <Text style={styles.overviewIndicatorText}>
+                            {`${getWeatherKeyValue(SensorId.AIR_HUMIDITY).max} ${getWeatherKeyValue(SensorId.AIR_HUMIDITY).units.toString()}`}
+                        </Text>
+                    </View>
+                    <View style={styles.overviewValueItem}>
+                        <Image source={icons.windSpeedAndDirection} style={styles.iconSmall}/>
+                        <Text style={styles.overviewIndicatorText}>
+                            {`${getWeatherKeyValue(SensorId.WIND_SPEED).max} ${getWeatherKeyValue(SensorId.WIND_SPEED).units.toString()}`}
+                        </Text>
                     </View>
                 </View>
             </View>
@@ -174,13 +185,11 @@ const WeatherKeyValueListComponent: React.FC<PropsWeatherKeyValueList> = (props:
                     cardTitle={"Wind"}
                     value={getWindSpeedAndDirection().value}
                     units={getWindSpeedAndDirection().units}
-                    cardIcon={icons.windSpeedAndDirection}
                 />
                 <WeatherKeyValueCard
                     cardTitle={"Niederschlag"}
                     value={getWeatherKeyValue(SensorId.PRECIPITATION_AMOUNT).value}
                     units={getWeatherKeyValue(SensorId.PRECIPITATION_AMOUNT).units}
-                    cardIcon={icons.waterDrop}
                 />
             </View>
 
@@ -189,13 +198,11 @@ const WeatherKeyValueListComponent: React.FC<PropsWeatherKeyValueList> = (props:
                     cardTitle={"Feutigkeit"}
                     value={getWeatherKeyValue(SensorId.AIR_HUMIDITY).value}
                     units={getWeatherKeyValue(SensorId.AIR_HUMIDITY).units}
-                    cardIcon={icons.humidityPercentage}
                 />
                 <WeatherKeyValueCard
                     cardTitle={"Luftdruck"}
                     value={getWeatherKeyValue(SensorId.AIR_PRESSURE).value}
                     units={getWeatherKeyValue(SensorId.AIR_PRESSURE).units}
-                    cardIcon={icons.airPressure}
                 />
             </View>
 
@@ -241,18 +248,23 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     temperaturePreviewContainer: {
+        gap: GAPS.gap3,
         alignItems: "center",
         alignContent: "center",
     },
-    minMaxTemperatureContainer: {
+    overviewValueListContainer: {
         flexDirection: "row",
-        gap: GAPS.gap2,
+        gap: GAPS.gap5,
     },
-    minMaxTemperatureItem: {
+    overviewValueItem: {
         flexDirection: "row",
         justifyContent: "center",
         alignContent: "center",
         alignItems: "center",
+    },
+    overviewIndicatorText: {
+        fontWeight: "500",
+        fontSize: FONT_SIZE.small,
     },
     previewAverageTemperature: {
         fontSize: (FONT_SIZE.xxxLarge * 1.5),

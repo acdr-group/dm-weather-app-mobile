@@ -4,14 +4,17 @@ import {COLORS, GAPS, SIZES} from "../../constatnts/theme";
 
 type Props = PropsWithChildren & {
   title: string
-  headerIcon: any
+  headerIcon?: any
 }
 
 const GenericStationCard: React.FC<Props> = (props: Props) => {
   return (
       <View style={styles.container}>
         <View style={styles.containerTitle}>
-          <Image source={props.headerIcon} style={styles.sectionTitleIcon}/>
+          {props.headerIcon ?
+              <Image source={props.headerIcon} style={styles.sectionTitleIcon}/>
+              : null
+          }
           <Text style={styles.sectionTitle}>
             {props.title}
           </Text>

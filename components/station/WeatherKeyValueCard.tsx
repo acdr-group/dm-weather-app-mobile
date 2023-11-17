@@ -7,7 +7,7 @@ type Props = {
     cardTitle: string
     value: number
     units: string[]
-    cardIcon: any
+    cardIcon?: any
 }
 
 const WeatherKeyValueCard: React.FC<Props> = (props: Props) => {

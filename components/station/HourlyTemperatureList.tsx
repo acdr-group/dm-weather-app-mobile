@@ -8,11 +8,8 @@ type Props = {
     hourlyTemperatures: HourlyTemperature[]
 }
 export const HourlyTemperatureList: React.FC<Props> = (props: Props) => {
-
-    const cardIcon = require("../../assets/icons/hourly_prediction.png")
-
     return (
-        <GenericStationCard title={"Stündliche Vorhersage"} headerIcon={cardIcon}>
+        <GenericStationCard title={"Stündliche Vorhersage"}>
             <ScrollView
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
