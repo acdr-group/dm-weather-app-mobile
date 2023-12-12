@@ -25,7 +25,7 @@ const Analysis: React.FC<Props> = (props: Props) => {
         data: sensorsResponse,
         isLoading,
         error,
-    } = useFetch<SensorListResponse>(`stations/${process.env.EXPO_PUBLIC_DM_TECH_STATION_ID}/sensors`)
+    } = useFetch<SensorListResponse>(`stations/${process.env.EXPO_PUBLIC_DM_TECH_STATION_ID}/sensors`,undefined,'sensors-list',60)
 
     const router = useRouter()
 
