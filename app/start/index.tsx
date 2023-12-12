@@ -33,7 +33,8 @@ const StartComponent: React.FC<Props> = (props: Props) => {
         data,
         isLoading,
         error,
-    } = useFetch<Station>(`stations/${process.env.EXPO_PUBLIC_DM_TECH_STATION_ID}`)
+    } = useFetch<Station>(`stations/${process.env.EXPO_PUBLIC_DM_TECH_STATION_ID}`,
+        null,"stationData",1440) ;
 
     const handleDateChange = (event: any, dateSelected: Date) => setSelectedDate(dateSelected)
 
@@ -95,7 +96,7 @@ const WeatherKeyValueListComponent: React.FC<PropsWeatherKeyValueList> = (props:
         isLoading,
         error,
         reFetch,
-    } = useFetch<SensorMeasurementWithTimestamps>("readings", readingsRequestOptions)
+    } = useFetch<SensorMeasurementWithTimestamps>("readings", readingsRequestOptions, "sensorMeasurements_" +selectedDate.toISOString(),60);
 
     const icons = {
         cloudy: require("../../assets/icons/weather-stages/cloudy.png"),
@@ -286,3 +287,4 @@ const styles = StyleSheet.create({
 })
 
 export default StartComponent
+

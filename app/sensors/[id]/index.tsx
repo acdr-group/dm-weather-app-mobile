@@ -20,7 +20,7 @@ const SensorAnalysis: React.FC<Props> = (props: Props) => {
         data: sensor,
         isLoading,
         error,
-    } = useFetch<Sensor>(`stations/${process.env.EXPO_PUBLIC_DM_TECH_STATION_ID}/sensors/${id}`)
+    } = useFetch<Sensor>(`stations/${process.env.EXPO_PUBLIC_DM_TECH_STATION_ID}/sensors/${id}`,undefined,`sensor-${id}`,60)
 
     if (error) return <ErrorMessageComponent reason={error.toString()}/>
 
@@ -80,7 +80,7 @@ const ChartAndKeyValuesComponent: React.FC<PropsChartAndKeyValues> = (props: Pro
         isLoading,
         error,
         reFetch,
-    } = useFetch<SensorMeasurementWithTimestamps>("readings", readingsRequestOptions)
+    } = useFetch<SensorMeasurementWithTimestamps>("readings", readingsRequestOptions,`readings-${props.sensorId}-${selectedInterval.startDate}-${selectedInterval.endDate}`,60)
 
     const chartData = useMemo<ChartDataType[] | undefined>(() => {
         if (data === undefined) return undefined
