@@ -3,7 +3,7 @@ import {StyleSheet, Text, View} from "react-native";
 import {COLORS, GAPS, SIZES} from "../../constatnts";
 
 type Props = {
-    title: string
+    title?: string
     description?: string
     size?: "medium" | "large"
 }
@@ -11,14 +11,17 @@ type Props = {
 const PageTitleSectionComponent: React.FC<Props> = (props: Props) => {
     return (
         <View style={styles.sectionContainer}>
-            <Text
-                style={
-                    props.size === "medium" ?
-                        styles.titleMedium : styles.titleLarge
-                }
-            >
-                {props.title}
-            </Text>
+            {
+                props.title ?
+                    <Text
+                        style={
+                            props.size === "medium" ?
+                                styles.titleMedium : styles.titleLarge
+                        }
+                    >
+                        {props.title}
+                    </Text> : null
+            }
             {props.description ?
                 <Text style={styles.description}>
                     {props.description}

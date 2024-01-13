@@ -1,11 +1,12 @@
 const COLORS = {
-    primary: "#312651",
+    primary: "#673ab7",
     secondary: "#444262",
     tertiary: "#FF7754",
     black: "#000000",
 
     lightgray: "rgba(220,218,239,0.78)",
     gray: "#83829A",
+    primaryGrey: "#9575cd",
     gray2: "#C1C0C8",
     gray3: "#f5f5f7",
 
@@ -69,7 +70,7 @@ const SHADOWS = {
     medium: {
         shadowColor: "#000",
         shadowOffset: {
-            width: 0,
+            width: 1,
             height: 3,
         },
         shadowOpacity: 0.25,

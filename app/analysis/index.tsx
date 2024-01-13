@@ -1,100 +1,143 @@
-import React, {useMemo} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {
     ActivityIndicator,
     Image,
     SafeAreaView,
-    ScrollView,
+    ScrollView, StatusBar, StatusBarStyle,
     StyleSheet,
     Text,
     TouchableOpacity,
-    View
+    View,
 } from "react-native";
 import {Stack, useRouter} from "expo-router";
 import PageWrapperComponent from "../../components/shared/PageWrapperComponent";
 import {PageTitle} from "../../context/PageContext";
-import {ListItem} from "../../components/shared/GenericList";
 import {COLORS, FONT_SIZE, GAPS, SIZES} from "../../constatnts";
 import useFetch from "../../hooks/useFetch";
-import {SensorListResponse, SensorName} from "../../models/sensor";
 import ErrorMessageComponent from "../../components/shared/ErrorMessageComponent";
+import {useApplicationContext} from "../../context/applicationContext";
+import {Forecast} from "../../api/forecast";
+import {ChartComponent, ChartDataSetType} from "../../components/ChartComponent";
+import {Weather} from "../../api/weather";
+import DropdownComponent from "../../components/shared/DropdownComponent";
 
-type Props = {}
-const Analysis: React.FC<Props> = (props: Props) => {
+
+enum Sensor {
+    Temperatur = "Temperatur",
+    Luftdruck = "Luftdruck",
+    Luftfeuchtigkeit = "Luftfeuchtigkeit",
+}
+
+const Analysis: React.FC = () => {
+    const statusBarStyle: StatusBarStyle = "light-content"
+    const applicationContext = useApplicationContext()
+
+    const [selectedSensor, setSelectedSensor] = useState<Sensor>(Sensor.Temperatur);
 
     const {
-        data: sensorsResponse,
+        data: forecast,
         isLoading,
         error,
-    } = useFetch<SensorListResponse>(`stations/${process.env.EXPO_PUBLIC_DM_TECH_STATION_ID}/sensors`)
+    } = useFetch<Forecast>(applicationContext.getForecast())
 
-    const router = useRouter()
-
-    const resolveSensorIcon = (sensorName: SensorName): any => {
-        switch (sensorName) {
-            case SensorName.AIR_TEMPERATURE: return require("../../assets/icons/thermometer.png")
-            case SensorName.AIR_HUMIDITY: return require("../../assets/icons/humidity_percentage.png")
-            case SensorName.PRECIPITATION_AMOUNT: return require("../../assets/icons/water_drop.png")
-            case SensorName.WIND_SPEED: return require("../../assets/icons/air.png")
-            case SensorName.WIND_DIRECTION: return require("../../assets/icons/explore.png")
-            case SensorName.AIR_PRESSURE: return require("../../assets/icons/compress.png")
-            default: return require("../../assets/icons/analysis.png")
+    const resolveAttributNameOnWeatherObjectFromSensorName = (): string => {
+        switch (selectedSensor) {
+            case Sensor.Temperatur: return "temp";
+            case Sensor.Luftdruck: return "pressure";
+            case Sensor.Luftfeuchtigkeit: return "humidity";
+            default: return "temp";
         }
     }
 
-    const analysisCategories = useMemo<ListItem[] | undefined>(() => {
-        if (sensorsResponse === undefined) return undefined
-        return sensorsResponse.sensors.map(s => {
-            const sensorName = s.name.replace("_", "-")
+    const resolveUnitFromSensorName  = (): string => {
+        switch (selectedSensor) {
+            case Sensor.Temperatur: return "°C";
+            case Sensor.Luftdruck: return "hPa";
+            case Sensor.Luftfeuchtigkeit: return "%";
+            default: return "°C";
+        }
+    }
+
+    const handleSensorChange = (value: string) => {
+        setSelectedSensor(value as Sensor)
+    }
+
+    const resolveChartData = useCallback((): ChartDataSetType[] => {
+        const propertyName = resolveAttributNameOnWeatherObjectFromSensorName()
+        return forecast === undefined ? [] : forecast.weatherList.map(w => {
             return {
-                title: sensorName,
-                icon: resolveSensorIcon(sensorName as SensorName),
-                onPress: () => router.push(`/sensors/${s.id}`)
+                x: w.dateTime.toLocaleDateString("de-DE", {day: "2-digit", month: "short", year: "2-digit"}),
+                // @ts-ignore
+                y: w[propertyName]
             }
         })
-    }, [sensorsResponse])
+    }, [forecast, selectedSensor])
+
+    const extractDatesFromWeatherList = useCallback((): Weather[] => {
+        return forecast?.weatherList.reduce((acc: Weather[], curr: Weather) =>
+                (acc as Weather[])
+                    .find(w => w.dateTime.getDate() === curr.dateTime.getDate()) ?
+                    acc : [...acc, curr]
+            , [])
+    }, [forecast]);
+
+    const sensorValues = useMemo(() => extractDatesFromWeatherList(), [forecast]);
 
     if (error) return <ErrorMessageComponent reason={error.toString()}/>
 
     return (
         <SafeAreaView>
+            <StatusBar
+                barStyle={statusBarStyle}
+            />
             <Stack.Screen
                 options={{
-                    headerShown: false,
-                    headerTransparent: true,
+                    headerTitle: PageTitle.ANALYSIS_PAGE_TITLE,
+                    headerShown: true,
+                    headerTitleStyle: { color: COLORS.white },
+                    headerStyle: { backgroundColor: COLORS.primary },
+                    headerTitleAlign: "center",
+                    headerTintColor: COLORS.white,
+                    headerBackTitleVisible: true,
+                    headerTransparent: false,
+                    headerShadowVisible: false,
+                    headerBackVisible: true,
                 }}
             />
             <ScrollView>
                 <PageWrapperComponent
-                    title={PageTitle.ANALYSIS_PAGE_TITLE}
-                    description={"Wähle einen Sensor, um loszulegen"}
+                    description={"Sensor"}
                 >
-                    {isLoading || sensorsResponse === undefined ?
-                        <ActivityIndicator size="large"/> :
-                        <SensorListComponent sensorList={analysisCategories}/>
+                    {isLoading ? <ActivityIndicator size="large"/> :
+                        error ? <ErrorMessageComponent reason={error.toString()}/> :
+                           <>
+                               <View style={{ marginTop: -10, marginBottom: 30 }}>
+                                   <DropdownComponent
+                                       options={Object.values(Sensor)}
+                                       onSelect={handleSensorChange}
+                                       selectedValue={selectedSensor}
+                                   />
+                               </View>
+                               <View>
+                                   <Text style={styles.chartTitle}>
+                                       {selectedSensor} in den nächten {sensorValues.length} Tagen
+                                   </Text>
+                                   <Text style={styles.unit}>
+                                       Einheit in {resolveUnitFromSensorName()}
+                                   </Text>
+                               </View>
+                               <ChartComponent
+                                   dataSet={resolveChartData()}
+                                   horizontalAxisLabel={"Zeitspanne"}
+                                   verticalAxisLabel={selectedSensor}
+                                   chartTitle={selectedSensor}
+                                   unit={resolveUnitFromSensorName()}
+                               />
+                           </>
                     }
                 </PageWrapperComponent>
             </ScrollView>
         </SafeAreaView>
-    )
-}
-
-type PropsSensorList = {
-    sensorList: ListItem[]
-}
-const SensorListComponent: React.FC<PropsSensorList> = (props: PropsSensorList) => {
-    return (
-        <View style={styles.listContainer}>
-            {props.sensorList?.map(c =>
-                <TouchableOpacity key={c.title} onPress={c.onPress}>
-                    <View style={styles.listItemContent}>
-                        <Image source={c.icon} style={styles.icon}/>
-                        <Text style={styles.itemTitle}>
-                            {c.title}
-                        </Text>
-                    </View>
-                </TouchableOpacity>
-            )}
-        </View>
     )
 }
 
@@ -120,6 +163,14 @@ const styles = StyleSheet.create({
     icon: {
         height: 20,
         width: 20,
+    },
+    chartTitle: {
+        fontSize: FONT_SIZE.large,
+        fontWeight: "600",
+    },
+    unit: {
+        color: COLORS.primary,
+        fontSize: FONT_SIZE.medium,
     }
 })
 

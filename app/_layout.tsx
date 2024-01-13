@@ -17,6 +17,7 @@ import {
     useFonts,
 } from '@expo-google-fonts/roboto';
 import BottomNavigationBar from "../components/BottomNavigationBar";
+import {ApplicationContextProvider} from "../context/applicationContext";
 
 SplashScreen.preventAutoHideAsync()
 const Layout = (props: any) => {
@@ -40,8 +41,10 @@ const Layout = (props: any) => {
 
     return (
         <>
-            <Stack/>
-            <BottomNavigationBar/>
+            <ApplicationContextProvider>
+                <Stack/>
+                <BottomNavigationBar/>
+            </ApplicationContextProvider>
         </>
     )
 }

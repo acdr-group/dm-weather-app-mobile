@@ -12,13 +12,11 @@ type Props = PropsWithChildren & {
 const PageWrapperComponent: React.FC<Props> = (props: Props) => {
     return (
         <View style={styles.pageContentContainer}>
-            {props.title ?
-                <PageTitleSectionComponent
-                    title={props.title}
-                    size={props.size}
-                    description={props.description}
-                /> : null
-            }
+            <PageTitleSectionComponent
+                title={props.title}
+                size={props.size}
+                description={props.description}
+            />
             {props.children}
         </View>
     )
