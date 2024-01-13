@@ -25,7 +25,6 @@ import useFetch from "../hooks/useFetch";
 import ErrorMessageComponent from "../components/shared/ErrorMessageComponent";
 import {PageTitle} from "../context/PageContext";
 import {SuggestionComponent} from "../components/SuggestionComponent";
-import HeaderTitleComponent from "../components/shared/HeaderTitleComponent";
 import {Platform} from "react-native";
 
 const Home: React.FC = () => {
@@ -147,19 +146,19 @@ const WeatherKeyValueListComponent: React.FC<PropsWeatherKeyValueList> = (props:
             <View style={styles.itemListContainer}>
                 <WeatherKeyValueCard
                     cardTitle={"Gefühlt"}
-                    value={weather.feelsLike.toFixed()}
+                    value={Number(weather.feelsLike.toFixed())}
                     unit={"°"}
                     orientation="horizontal"
                 />
                 <WeatherKeyValueCard
                     cardTitle={"Höchste Temp."}
-                    value={weather.tempMax.toFixed()}
+                    value={Number(weather.tempMax.toFixed())}
                     unit={"°"}
                     orientation="horizontal"
                 />
                 <WeatherKeyValueCard
                     cardTitle={"Niedrigste Temp."}
-                    value={weather.tempMin.toFixed()}
+                    value={Number(weather.tempMin.toFixed())}
                     unit={"°"}
                     orientation="horizontal"
                 />
