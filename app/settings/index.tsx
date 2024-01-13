@@ -1,24 +1,22 @@
 import React from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, Text, View} from "react-native";
+import {SafeAreaView, ScrollView, StatusBar, StatusBarStyle, StyleSheet, Text, View} from "react-native";
 import {Stack} from "expo-router";
 import PageWrapperComponent from "../../components/shared/PageWrapperComponent";
 import {PageTitle} from "../../context/PageContext";
 import GenericList, {ListItem} from "../../components/shared/GenericList";
-import {COLORS, GAPS, SIZES} from "../../constatnts/theme";
+import {COLORS, FONT_SIZE, GAPS, SIZES} from "../../constatnts";
 
-type Props = {
-
-}
-const Settings: React.FC<Props> = (props: Props) => {
+const Settings: React.FC = () => {
+    const statusBarStyle: StatusBarStyle = "light-content"
 
     const appInfoList: ListItem[] = [
         {
             title: "App-Version",
-            leftSideText: "1.0.0",
+            leftSideText: process.env.EXPO_PUBLIC_APP_VERSION,
         },
         {
             title: "Last release",
-            leftSideText: "15.11.2023",
+            leftSideText: process.env.EXPO_PUBLIC_LAST_RELEASE_DATE,
         },
     ]
 
@@ -29,30 +27,42 @@ const Settings: React.FC<Props> = (props: Props) => {
         },
         {
             title: "Datenquelle",
-            leftSideText: "Heidelberg Universität",
+            leftSideText: process.env.EXPO_PUBLIC_WEATHER_DATA_PROVIDER,
         },
         {
             title: "Wetterstation",
-            leftSideText: "Karlsruhe dmTECH",
+            leftSideText: process.env.EXPO_PUBLIC_WEATHER_DATA_PROVIDER,
         },
     ]
 
     return (
         <SafeAreaView>
+            <StatusBar
+                barStyle={statusBarStyle}
+            />
             <Stack.Screen
                 options={{
-                    headerTransparent: true,
+                    headerTitle: PageTitle.SETTINGS_PAGE_TITLE,
+                    headerShown: true,
+                    headerTitleStyle: { color: COLORS.white },
+                    headerStyle: { backgroundColor: COLORS.primary },
+                    headerTitleAlign: "center",
+                    headerTintColor: COLORS.white,
+                    headerBackTitleVisible: true,
+                    headerTransparent: false,
+                    headerShadowVisible: false,
+                    headerBackVisible: true,
                 }}
             />
             <ScrollView style={styles.scrollView}>
-                <PageWrapperComponent title={PageTitle.SETTINGS_PAGE_TITLE}>
-                    <View style={styles.categoryContainer}>
-                        <Text style={styles.categoryLabel}>Anwendungsstammdaten</Text>
-                        <GenericList listData={appInfoList}/>
-                    </View>
+                <PageWrapperComponent>
                     <View style={styles.categoryContainer}>
                         <Text style={styles.categoryLabel}>Datenherkunft</Text>
                         <GenericList listData={dataSourceList}/>
+                    </View>
+                    <View style={styles.categoryContainer}>
+                        <Text style={styles.categoryLabel}>Anwendungsstammdaten</Text>
+                        <GenericList listData={appInfoList}/>
                     </View>
                 </PageWrapperComponent>
             </ScrollView>
@@ -65,9 +75,10 @@ const styles = StyleSheet.create({
         height: "100%",
     },
     categoryContainer: {
-        gap: GAPS.gap1,
+        gap: GAPS.gap2,
     },
     categoryLabel: {
+        fontSize: FONT_SIZE.small,
         marginHorizontal: SIZES.medium,
         color: COLORS.gray,
     }

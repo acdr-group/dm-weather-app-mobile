@@ -1,4 +1,11 @@
 {
+  "build": {
+    "preview": {
+      "android": {
+        "buildType": "apk"
+      }
+    }
+  },
   "expo": {
     "scheme": "acme",
     "web": {
@@ -8,6 +15,27 @@
       "expo-router"
     ],
     "name": "dm-weather-app-mobile",
-    "slug": "dm-weather-app-mobile"
+    "slug": "dm-weather-app-mobile",
+    "android": {
+      "package": "com.anonymous.dmweatherappmobile",
+      "runtimeVersion": "1.0.0"
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "5e3c4ce2-9d18-4d14-b26f-77361308b2e2"
+      }
+    },
+    "ios": {
+      "bundleIdentifier": "com.anonymous.dmweatherappmobile",
+      "runtimeVersion": {
+        "policy": "appVersion"
+      }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/5e3c4ce2-9d18-4d14-b26f-77361308b2e2"
+    }
   }
 }

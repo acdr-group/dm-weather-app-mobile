@@ -1,35 +1,35 @@
 import {useEffect, useState} from "react"
-import axios, {AxiosRequestConfig} from "axios";
 
-const useFetch = <T>(endpoint: string, query?: Record<string, unknown>) => {
+interface UseFetchOutput <T> {
+    data: T
+    isLoading: boolean
+    error: unknown
+    reFetch: () => void
+}
+const useFetch = <T>(request: Promise<T>): UseFetchOutput<T> => {
 
     const [data, setData] = useState<T | undefined>(undefined)
-    const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [isLoading, setIsLoading] = useState<boolean>(true)
     const [error, setError] = useState<unknown>(null)
 
     useEffect(() => {
-        console.log("server_url: ", process.env.EXPO_PUBLIC_BACKEND_SERVER_URL)
-        fetchData();
+        fetchData()
     }, [])
-
-    const options: AxiosRequestConfig = {
-        method: "GET",
-        url: `${process.env.EXPO_PUBLIC_BACKEND_SERVER_URL}/${endpoint}`,
-        params: { ...query },
-    }
 
     const fetchData = async () => {
         setIsLoading(true)
+        setError(null)
 
         try {
-            const response = await axios.request(options)
-            setData(response.data)
+            console.log("SERVER URL: ", process.env.EXPO_PUBLIC_BACKEND_SERVER_URL)
+            const response = await request
+            setData(response)
             setIsLoading(false)
         } catch (error) {
             setError(error)
             console.log(error)
         } finally {
-            setIsLoading(false);
+            setIsLoading(false)
         }
     }
 
@@ -39,11 +39,11 @@ const useFetch = <T>(endpoint: string, query?: Record<string, unknown>) => {
     }
 
     return {
-        data,
+        data: data!,
         isLoading,
         error,
         reFetch: reFetch
     }
 }
 
-export default useFetch;
+export default useFetch

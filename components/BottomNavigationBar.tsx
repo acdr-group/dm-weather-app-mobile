@@ -16,17 +16,17 @@ const BottomNavigationBar: React.FC = () => {
 
     const navigationButtons: BottomNavigationButtonType[] = [
         {
-            label: PageTitle.START_PAGE_TITLE,
+            temperature: PageTitle.START_PAGE_TITLE,
             icon: require("../assets/icons/home.png"),
             onPress: () => router.push("/")
         },
         {
-            label: PageTitle.ANALYSIS_PAGE_TITLE,
+            temperature: PageTitle.ANALYSIS_PAGE_TITLE,
             icon: require("../assets/icons/analytics.png"),
             onPress: () => router.push("/analysis")
         },
         {
-            label: PageTitle.SETTINGS_PAGE_TITLE,
+            temperature: PageTitle.SETTINGS_PAGE_TITLE,
             icon: require("../assets/icons/settings.png"),
             onPress: () => router.push("/settings")
         },
@@ -36,7 +36,7 @@ const BottomNavigationBar: React.FC = () => {
         <View style={styles.infoCardListContainer}>
             {navigationButtons.map((button) =>
                 <TouchableOpacity
-                    key={button.label}
+                    key={button.temperature}
                     onPress={button.onPress}
                     style={styles.wrapperButton}
                 >
@@ -48,7 +48,7 @@ const BottomNavigationBar: React.FC = () => {
                             style={styles.buttonIcon}
                         />
                         <Text style={styles.buttonLabel}>
-                            {button.label}
+                            {button.temperature}
                         </Text>
                     </View>
                 </TouchableOpacity>
