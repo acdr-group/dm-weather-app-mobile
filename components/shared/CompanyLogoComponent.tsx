@@ -13,7 +13,7 @@ export const CompanyLogoComponent = () => {
                     resizeMode: "contain",
                     alignSelf: "center",
                 }}
-                source={require("../../assets/dm-logo.png")}
+                source={require("../../assets/icon.png")}
             />
         </View>
     );
