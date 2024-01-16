@@ -8,6 +8,16 @@ type Props = {
     size?: "medium" | "large"
 }
 
+/**
+ * PageTitleSectionComponent is a functional component that renders a title section with an optional description.
+ *
+ * @param {Object} props - The component props
+ * @param {string} props.title - The title to be displayed
+ * @param {string} [props.description] - The optional description to be displayed
+ * @param {string} props.size - The size of the title (`"medium"` or `"large"`)
+ *
+ * @returns {JSX.Element} The rendered title section component
+ */
 const PageTitleSectionComponent: React.FC<Props> = (props: Props) => {
     return (
         <View style={styles.sectionContainer}>

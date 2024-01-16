@@ -10,6 +10,12 @@ type BottomNavigationButtonType = {
     icon: string
     onPress: () => void
 }
+
+/**
+ * BottomNavigationBar component displays a bottom navigation bar with buttons that navigate to different pages.
+ *
+ * @returns {React.Node} The rendered BottomNavigationBar component.
+ */
 const BottomNavigationBar: React.FC = () => {
 
     const router = useRouter()

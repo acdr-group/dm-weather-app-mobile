@@ -13,6 +13,13 @@ type HourlyTemperature = {
 type Props = {
     weatherList: Weather[]
 }
+
+/**
+ * @typedef {Object} HourlyTemperature
+ * @property {Date} date - The date and time of the temperature
+ * @property {string} temp - The temperature value
+ * @property {string} iconSource - The URL of the weather icon source
+ */
 export const HourlyTemperatureList: React.FC<Props> = (props: Props) => {
     const { weatherList } = props
 

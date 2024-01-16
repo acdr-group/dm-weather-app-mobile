@@ -19,6 +19,15 @@ type TemperatureValuesOfADay = {
 type Props = {
     forecast: Forecast
 }
+
+/**
+ * Renders a weekly temperatures card component.
+ *
+ * @param {object} props - The component props.
+ * @param {object[]} props.forecast - The weather forecast data.
+ *
+ * @returns {JSX.Element} - The rendered component.
+ */
 const WeeklyTemperaturesCardComponent: React.FC<Props> = (props: Props) => {
 
     const { forecast } = props;

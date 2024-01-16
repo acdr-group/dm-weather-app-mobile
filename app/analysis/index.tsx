@@ -28,6 +28,10 @@ enum Sensor {
     Luftfeuchtigkeit = "Luftfeuchtigkeit",
 }
 
+/**
+ * Analysis component for displaying sensor data and charts.
+ * @returns {React.FC} Analysis component
+ */
 const Analysis: React.FC = () => {
     const statusBarStyle: StatusBarStyle = "light-content"
     const applicationContext = useApplicationContext()

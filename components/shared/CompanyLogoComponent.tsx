@@ -3,6 +3,11 @@ import { View, Image } from 'react-native';
 import {StyleSheet} from "react-native";
 import {COLORS} from "../../constatnts";
 
+/**
+ * Represents the company logo component.
+ *
+ * @returns {React.ReactNode} The rendered company logo component.
+ */
 export const CompanyLogoComponent = () => {
     return (
         <View style={styles.mainContainer}>

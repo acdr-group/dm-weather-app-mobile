@@ -11,6 +11,15 @@ type Suggestion = {
 type Props = {
     weatherIcon: string
 }
+
+/**
+ * A React functional component that displays suggestions based on a weather icon.
+ *
+ * @component
+ * @param {object} props - The component props.
+ * @param {string} props.weatherIcon - The weather icon to determine the suggestion.
+ * @returns {JSX.Element} The rendered component.
+ */
 export const SuggestionComponent: React.FC<Props> = (props: Props) => {
     const { weatherIcon } = props
     const [ready, setReady] = useState<boolean>(false);

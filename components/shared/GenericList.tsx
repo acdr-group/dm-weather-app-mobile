@@ -15,6 +15,14 @@ type Props = {
     emptyListMessage?: string
 }
 
+/**
+ * Represents a generic list component in React.
+ *
+ * @param {Object} props - The props for the GenericList component.
+ * @param {Array} props.listData - The array of data to display in the list.
+ * @param {String} props.emptyListMessage - The message to display when the list data is empty.
+ * @returns {JSX.Element} The rendered GenericList component.
+ */
 const GenericList: React.FC<Props> = (props: Props) => {
 
     if (props.listData.length === 0) {

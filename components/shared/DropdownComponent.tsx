@@ -7,6 +7,13 @@ type Props = {
     onSelect: (selectedValue: string) => void,
     selectedValue: string
 }
+/**
+ * Dropdown component for selecting an option from a dropdown menu
+ * @param {Object} props - The component props
+ * @param {Array} props.options - The available options to select from
+ * @param {Function} props.onSelect - The function to be called when an option is selected
+ * @param {string} props.selectedValue - The currently selected option value
+ */
 const DropdownComponent: React.FC<Props> = (props: Props) => {
     const [showDropdown, setShowDropdown] = useState(false);
     const { options, onSelect, selectedValue } = props;

@@ -14,6 +14,19 @@ type Props = {
     orientation?: "vertical" | "horizontal"
 }
 
+/**
+ * WeatherKeyValueCard component displays a weather key-value card.
+ * It is a functional component that accepts props as an argument.
+ *
+ * @param {object} props - The props for the WeatherKeyValueCard component.
+ * @param {string} props.cardTitle - The title of the card.
+ * @param {number} props.value - The value to be displayed in the card.
+ * @param {string} props.unit - The unit for the value.
+ * @param {string} props.cardIcon - The icon to be displayed in the card header.
+ * @param {number} props.max - The maximum value for the progress bar.
+ *
+ * @returns {React.ReactNode} Returns the rendered WeatherKeyValueCard component.
+ */
 const WeatherKeyValueCard: React.FC<Props> = (props: Props) => {
 
     const cardSubtitle = String(props.value) + props.unit

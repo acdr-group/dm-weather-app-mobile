@@ -6,6 +6,9 @@ import {PageTitle} from "../../context/PageContext";
 import GenericList, {ListItem} from "../../components/shared/GenericList";
 import {COLORS, FONT_SIZE, GAPS, SIZES} from "../../constatnts";
 
+/**
+ * React functional component representing the Settings page.
+ */
 const Settings: React.FC = () => {
     const statusBarStyle: StatusBarStyle = "light-content"
 

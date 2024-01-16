@@ -6,6 +6,14 @@ interface UseFetchOutput <T> {
     error: unknown
     reFetch: () => void
 }
+
+/**
+ * A custom hook for fetching data from an API.
+ *
+ * @template T - The type of data returned by the API.
+ * @param {Promise<T>} request - The promise that fetches the data.
+ * @returns {UseFetchOutput<T>} An object containing the fetched data, loading state, error state, and a function to refetch the data.
+ */
 const useFetch = <T>(request: Promise<T>): UseFetchOutput<T> => {
 
     const [data, setData] = useState<T | undefined>(undefined)

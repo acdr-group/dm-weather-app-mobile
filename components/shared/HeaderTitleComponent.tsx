@@ -6,6 +6,16 @@ type Props = {
     title: string
 }
 
+/**
+ * Represents a component for displaying a header title.
+ * @component
+ *
+ * @param {object} props - The properties for the header title component.
+ * @param {string} props.title - The title to be displayed in the header.
+ *
+ * @example
+ * <HeaderTitleComponent title="Welcome" />
+ */
 const HeaderTitleComponent: React.FC<Props> = (props: Props) => {
     const { title } = props;
     return (

@@ -18,6 +18,12 @@ type Props = {
     unit: string
 }
 
+/**
+ * LineChartComponent is a React functional component that displays a line chart with configurable options.
+ *
+ * @param {Props} props - The props for the component.
+ * @returns {React.ReactNode} - The rendered line chart component.
+ */
 const LineChartComponent: React.FC<Props> = (props: Props) => {
 
     const parentViewRef = useRef<View | null>(null)

@@ -4,6 +4,12 @@ import {COLORS, FONT, FONT_SIZE, GAPS, SIZES} from "../../constatnts/theme";
 
 type Props = TextInputProps & { }
 
+/**
+ * A search text input component.
+ *
+ * @param {Object} props - The props object containing the onChange event handler.
+ * @returns {ReactElement} - The search text input component.
+ */
 const SearchTextInput: React.FC<Props> = (props: Props) => {
 
     const searchIcon = require("../../assets/icons/search.png")

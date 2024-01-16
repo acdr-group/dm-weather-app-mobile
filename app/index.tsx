@@ -27,6 +27,11 @@ import {PageTitle} from "../context/PageContext";
 import {SuggestionComponent} from "../components/SuggestionComponent";
 import {Platform} from "react-native";
 
+/**
+ * The Home component is a React functional component that displays the main page of the application.
+ *
+ * @returns {React.Element} The rendered Home component.
+ */
 const Home: React.FC = () => {
 
     const statusBarStyle: StatusBarStyle = "light-content"

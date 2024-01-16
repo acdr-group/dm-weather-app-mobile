@@ -9,6 +9,23 @@ type Props = PropsWithChildren & {
   orientation?: "vertical" | "horizontal"
 }
 
+/**
+ * Represents a generic card component.
+ *
+ * @component
+ * @param {Object} props - The props for the GenericCard component.
+ * @param {string} props.orientation - The orientation of the card. Possible values are "vertical" or "horizontal".
+ * @param {string} props.title - The title of the card.
+ * @param {string} props.subtitle - The subtitle of the card (applicable only if orientation is "horizontal").
+ * @param {React.ReactNode} props.headerIcon - The icon to be displayed in the card header.
+ * @param {React.ReactNode} props.children - The content to be displayed in the card body.
+ * @returns {React.ReactNode} - The rendered GenericCard component.
+ *
+ * @example
+ * <GenericCard orientation="vertical" title="Card Title" headerIcon={<Icon />} >
+ *   <p>Card Content</p>
+ * </GenericCard>
+ */
 const GenericCard: React.FC<Props> = (props: Props) => {
 
   const isVertical = props.orientation === "vertical"

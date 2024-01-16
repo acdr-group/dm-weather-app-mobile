@@ -9,6 +9,17 @@ type Props = PropsWithChildren & {
     size?: "medium" | "large"
 }
 
+/**
+ * Page Wrapper Component
+ * @param {Object} props - The props object for the component
+ * @returns {ReactElement} - The JSX element representing the Page Wrapper Component
+ * @example
+ * <PageWrapperComponent
+ *    title="Page Title"
+ *    size="large"
+ *    description="Page Description"
+ * >
+ *   {/* Content */
 const PageWrapperComponent: React.FC<Props> = (props: Props) => {
     return (
         <View style={styles.pageContentContainer}>
